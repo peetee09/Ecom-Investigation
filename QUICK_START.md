@@ -15,6 +15,8 @@ xdg-open index.html      # Linux
 start index.html         # Windows
 ```
 
+**No installation required!** Works entirely in your browser - no Python needed!
+
 ### Step 2: Use the Bash Query Interface
 Type any of these queries in the input box:
 - `Show customer order status`
@@ -25,10 +27,11 @@ Type any of these queries in the input box:
 - `What is our SLA compliance?`
 - `Show performance metrics`
 
-### Step 3: Monitor Operations
+### Step 3: Monitor Operations & Generate Reports
 - Watch metrics update in real-time (every 5 seconds)
 - Click buttons in the checklist section to update statuses
 - Review insights and alerts at the bottom
+- **Click "📊 Generate Excel Report" to download comprehensive tracking spreadsheet**
 
 ## Example Queries
 
@@ -105,6 +108,12 @@ What is the SLA compliance?
 **Q: Query responses are empty**
 - Make sure to type a query before clicking Submit
 - Try the example queries listed above
+
+**Q: Excel generation button doesn't work**
+- Wait a few seconds for libraries to load after page opens
+- Check your internet connection (required for SheetJS library)
+- Try refreshing the page
+- Check browser console (F12) for errors
 
 ## Need More Info?
 

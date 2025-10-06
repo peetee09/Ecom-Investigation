@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-commerce Warehouse Operations Dashboard</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- SheetJS library for Excel generation -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>🏭 Warehouse Operations Dashboard</h1>
             <div class="timestamp" id="currentTime"></div>
+            <button onclick="createEcomTrackingSystem()" class="generate-excel-btn" title="Generate Excel tracking system">
+                📊 Generate Excel Report
+            </button>
         </header>
 
         <!-- Bash Query Interface -->
@@ -204,6 +209,7 @@
         </section>
     </div>
 
+    <script src="generate_excel.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
