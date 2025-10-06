@@ -37,7 +37,7 @@ const dashboardData = {
 document.addEventListener('DOMContentLoaded', () => {
     initializeDashboard();
     setupExcelGenerator();
-    loadSavedData();
+    loadSavedData(); // Loads saved data and updates display
     updateMetrics();
     setInterval(updateMetrics, 5000); // Update every 5 seconds
 });
@@ -260,11 +260,12 @@ function loadSavedData() {
         if (saved) {
             const parsed = JSON.parse(saved);
             Object.assign(dashboardData, parsed);
-            updateMetricsDisplay();
         }
     } catch (e) {
         console.error('Failed to load from localStorage:', e);
     }
+    // Always update display after attempting to load
+    updateMetricsDisplay();
 }
 
 function updateMetricsDisplay() {
