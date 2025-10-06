@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSavedData(); // Loads saved data and updates display
     updateMetrics();
     setInterval(updateMetrics, 5000); // Update every 5 seconds
+    initializeDataEntryForm();
+    loadAndDisplayEntries();
 });
 
 // Initialize dashboard functionality
@@ -296,4 +298,174 @@ function saveQueryHistory(query, response) {
     } catch (e) {
         console.error('Failed to save query history:', e);
     }
+}
+
+// ============================================================
+// DATA ENTRY FORM FUNCTIONS
+// ============================================================
+
+// Initialize data entry form
+function initializeDataEntryForm() {
+    const form = document.getElementById('dataEntryForm');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleFormSubmit();
+    });
+
+    form.addEventListener('reset', () => {
+        // Small delay to let the reset complete
+        setTimeout(() => {
+            console.log('Form reset');
+        }, 0);
+    });
+}
+
+// Handle form submission
+function handleFormSubmit() {
+    // Get form values
+    const customerName = document.getElementById('customerName').value.trim();
+    const orderID = document.getElementById('orderID').value.trim();
+    const queryType = document.getElementById('queryType').value;
+    const status = document.getElementById('status').value;
+    const queryDetails = document.getElementById('queryDetails').value.trim();
+    const response = document.getElementById('response').value.trim();
+
+    // Validate required fields
+    if (!customerName || !orderID || !queryType || !queryDetails) {
+        alert('Please fill in all required fields (marked with *)');
+        return;
+    }
+
+    // Create entry object
+    const entry = {
+        id: generateEntryID(),
+        customerName,
+        orderID,
+        queryType,
+        status,
+        queryDetails,
+        response: response || 'N/A',
+        timestamp: new Date().toISOString(),
+        respondedBy: getUsername()
+    };
+
+    // Save to localStorage
+    saveEntry(entry);
+
+    // Show success message
+    showSuccessMessage(entry);
+
+    // Reset form
+    document.getElementById('dataEntryForm').reset();
+
+    // Reload entries display
+    loadAndDisplayEntries();
+
+    // Update metrics
+    updateOrderMetrics();
+}
+
+// Generate unique entry ID
+function generateEntryID() {
+    const entries = getEntries();
+    const nextNum = entries.length + 1;
+    return `Q${String(nextNum).padStart(3, '0')}`;
+}
+
+// Get username (from browser or default)
+function getUsername() {
+    // Try to get from localStorage, otherwise use default
+    let username = localStorage.getItem('username');
+    if (!username) {
+        username = 'User';
+    }
+    return username;
+}
+
+// Save entry to localStorage
+function saveEntry(entry) {
+    try {
+        const entries = getEntries();
+        entries.unshift(entry); // Add to beginning
+        localStorage.setItem('customerEntries', JSON.stringify(entries));
+    } catch (e) {
+        console.error('Failed to save entry:', e);
+        alert('Failed to save entry. Please try again.');
+    }
+}
+
+// Get all entries from localStorage
+function getEntries() {
+    try {
+        const stored = localStorage.getItem('customerEntries');
+        return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+        console.error('Failed to load entries:', e);
+        return [];
+    }
+}
+
+// Show success message
+function showSuccessMessage(entry) {
+    const message = `✅ Query added successfully!\n\nQuery ID: ${entry.id}\nCustomer: ${entry.customerName}\nOrder ID: ${entry.orderID}\nStatus: ${entry.status}`;
+    alert(message);
+}
+
+// Load and display entries
+function loadAndDisplayEntries() {
+    const entriesList = document.getElementById('entriesList');
+    if (!entriesList) return;
+
+    const entries = getEntries();
+
+    if (entries.length === 0) {
+        entriesList.innerHTML = '<div class="no-entries">No entries yet. Submit the form above to add your first entry.</div>';
+        return;
+    }
+
+    // Display last 10 entries
+    const recentEntries = entries.slice(0, 10);
+    
+    entriesList.innerHTML = recentEntries.map(entry => {
+        const date = new Date(entry.timestamp);
+        const formattedDate = date.toLocaleString();
+        const statusClass = entry.status.toLowerCase().replace(' ', '-');
+
+        return `
+            <div class="entry-item">
+                <div class="entry-header">
+                    <span class="entry-id">${entry.id}</span>
+                    <span class="entry-timestamp">${formattedDate}</span>
+                </div>
+                <div class="entry-details">
+                    <div class="entry-field"><strong>Customer:</strong> ${entry.customerName}</div>
+                    <div class="entry-field"><strong>Order ID:</strong> ${entry.orderID}</div>
+                    <div class="entry-field"><strong>Type:</strong> ${entry.queryType}</div>
+                    <div class="entry-field">
+                        <strong>Status:</strong> 
+                        <span class="entry-status ${statusClass}">${entry.status}</span>
+                    </div>
+                </div>
+                <div class="entry-field"><strong>Details:</strong> ${entry.queryDetails}</div>
+                ${entry.response !== 'N/A' ? `<div class="entry-field"><strong>Response:</strong> ${entry.response}</div>` : ''}
+                <div class="entry-field" style="font-size: 0.85rem; color: #666; margin-top: 5px;">
+                    <strong>Responded By:</strong> ${entry.respondedBy}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Update order metrics based on entries
+function updateOrderMetrics() {
+    const entries = getEntries();
+    
+    // Update order volume with actual entry count
+    dashboardData.metrics.orderVolume = Math.max(1247, 1200 + entries.length);
+    document.getElementById('orderVolume').textContent = dashboardData.metrics.orderVolume.toLocaleString();
+    
+    // Save updated data
+    saveToLocalStorage();
 }

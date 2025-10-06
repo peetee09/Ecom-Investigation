@@ -25,6 +25,63 @@
             <div id="queryResponse" class="query-response"></div>
         </section>
 
+        <!-- Data Entry Form -->
+        <section class="data-entry">
+            <h2>📝 Add New Customer Query</h2>
+            <div class="form-container">
+                <form id="dataEntryForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerName">Customer Name *</label>
+                            <input type="text" id="customerName" required placeholder="Enter customer name">
+                        </div>
+                        <div class="form-group">
+                            <label for="orderID">Order ID *</label>
+                            <input type="text" id="orderID" required placeholder="e.g., ORD-12345">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="queryType">Query Type *</label>
+                            <select id="queryType" required>
+                                <option value="">Select type...</option>
+                                <option value="Order Status">Order Status</option>
+                                <option value="Delivery Time">Delivery Time</option>
+                                <option value="Order Issue">Order Issue</option>
+                                <option value="Product Inquiry">Product Inquiry</option>
+                                <option value="Cancellation Request">Cancellation Request</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status *</label>
+                            <select id="status" required>
+                                <option value="IN PROGRESS">IN PROGRESS</option>
+                                <option value="RESPONDED">RESPONDED</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="queryDetails">Query Details *</label>
+                        <textarea id="queryDetails" required placeholder="Enter query details..." rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="response">Response</label>
+                        <textarea id="response" placeholder="Enter response (optional)" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">💾 Submit Query</button>
+                        <button type="reset" class="btn-reset">🔄 Clear Form</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Recent Entries -->
+            <div class="recent-entries">
+                <h3>📋 Recent Entries</h3>
+                <div id="entriesList" class="entries-list"></div>
+            </div>
+        </section>
+
         <!-- KPI Metrics -->
         <section class="metrics">
             <h2>📊 Key Performance Indicators</h2>
