@@ -47,8 +47,10 @@ open index.html
 xdg-open index.html
 ```
 
+Or just double-click `index.html` in your file browser!
+
 ### 2. Use the System
-- Type queries in the Bash interface
+- Type queries in the Bash interface (e.g., "Show customer orders")
 - Monitor real-time metrics (auto-updates every 5 seconds)
 - Click checklist buttons to update statuses
 - View insights and alerts
@@ -56,7 +58,9 @@ xdg-open index.html
 ### 3. Generate Excel Reports
 Click the **"📊 Generate Excel Report"** button in the header to instantly download a comprehensive Excel tracking workbook with all 12 sheets.
 
-**That's it!** No installation, no Python, no dependencies.
+**That's it!** No installation, no Python, no dependencies. Works entirely in your browser.
+
+> **Note:** The Python script (`generate_ecom_tracking_system.py`) is still included for backward compatibility but is **no longer needed**. The JavaScript version provides the same functionality without any installation requirements.
 
 ## 🛠️ System Requirements
 

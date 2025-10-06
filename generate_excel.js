@@ -12,6 +12,19 @@ function createEcomTrackingSystem() {
     console.log("E-Commerce Operations Tracking System Generator");
     console.log("=".repeat(60));
     
+    // Check if XLSX library is loaded
+    if (typeof XLSX === 'undefined') {
+        const errorMsg = '⚠️ Excel generation library not loaded. Please check your internet connection and refresh the page.';
+        console.error(errorMsg);
+        alert(errorMsg + '\n\nThe SheetJS library is required to generate Excel files.\nMake sure you have an active internet connection.');
+        const statusEl = document.getElementById('excelStatus');
+        if (statusEl) {
+            statusEl.textContent = '⚠️ Library not loaded - Check internet connection';
+            statusEl.style.color = '#ff6b6b';
+        }
+        return;
+    }
+    
     // Create new workbook
     const wb = XLSX.utils.book_new();
     
@@ -36,6 +49,16 @@ function createEcomTrackingSystem() {
     console.log(`✓ Excel tracking system created successfully: ${filename}`);
     console.log("\nSystem ready for use!");
     console.log("=".repeat(60));
+    
+    // Update status
+    const statusEl = document.getElementById('excelStatus');
+    if (statusEl) {
+        statusEl.textContent = '✓ Excel report generated successfully!';
+        statusEl.style.color = '#4caf50';
+        setTimeout(() => {
+            statusEl.textContent = '';
+        }, 5000);
+    }
     
     // Show user notification
     alert(`✓ Excel tracking system created successfully!\n\nFile: ${filename}\n\nThe file has been downloaded to your Downloads folder.`);

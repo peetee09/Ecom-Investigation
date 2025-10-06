@@ -1,0 +1,28 @@
+# Screenshots (for documentation purposes, not needed in repo)
+*.png
+*.jpg
+*.jpeg
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated Excel files
+*.xlsx
+!Ecom_Operations_Tracking_System.xlsx
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.log
