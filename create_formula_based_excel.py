@@ -192,25 +192,20 @@ class FormulaBasedExcelGenerator:
             ws.cell(row=2, column=col, value=header)
         self.apply_header_style(ws, 2, 1, 6)
         
-        # Sample data
-        now = datetime.now()
-        queries = [
-            ('Q-001', now, 'Show customer order status', 'Order #12345: In Transit, ETA: 2 days', 45, 'Completed'),
-            ('Q-002', now, 'Check wave completion', 'Wave W-789: 95% complete, 5 tasks remaining', 32, 'Completed'),
-            ('Q-003', now, 'Show employee training status', '87% trained, 13 employees pending', 28, 'Completed'),
-            ('Q-004', now, 'Why is stock replenishment delayed?', 'Average time: 2.5 hrs (target: 2 hrs). Delays due to supplier issues.', 67, 'Completed'),
-            ('Q-005', now, 'What is SLA compliance?', 'Current SLA compliance: 96% (target: >95%)', 23, 'Completed'),
-            ('Q-006', now, 'Show quality audit rate', 'Current rate: 5%, Recommendation: Increase to 10%', 41, 'Completed'),
-            ('Q-007', now, 'How many orders today?', 'Total orders today: 1,247', 19, 'Completed'),
-        ]
+        # Instructions row
+        ws.cell(row=3, column=1, value='HOW TO USE:')
+        ws.cell(row=3, column=2, value='Enter timestamp (right-click > Insert > Current Date & Time)')
+        ws.cell(row=3, column=3, value='Enter customer query text')
+        ws.cell(row=3, column=4, value='Enter your response or system output')
+        ws.cell(row=3, column=5, value='Enter response time in milliseconds')
+        ws.cell(row=3, column=6, value='Enter status: Completed, Pending, or Failed')
         
-        for row, (qid, timestamp, query, response, resp_time, status) in enumerate(queries, start=3):
-            ws.cell(row=row, column=1, value=qid)
-            ws.cell(row=row, column=2, value=timestamp).number_format = 'yyyy-mm-dd hh:mm:ss'
-            ws.cell(row=row, column=3, value=query)
-            ws.cell(row=row, column=4, value=response)
-            ws.cell(row=row, column=5, value=resp_time)
-            ws.cell(row=row, column=6, value=status)
+        # Make instructions row stand out with light blue background
+        instruction_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        for col in range(1, 7):
+            cell = ws.cell(row=3, column=col)
+            cell.fill = instruction_fill
+            cell.font = Font(italic=True, size=9)
         
         self.set_column_widths(ws, [12, 20, 35, 50, 18, 12])
         
@@ -232,38 +227,31 @@ class FormulaBasedExcelGenerator:
             ws.cell(row=2, column=col, value=header)
         self.apply_header_style(ws, 2, 1, 9)
         
-        # Sample data with formulas
-        now = datetime.now()
-        waves = [
-            ('W-001', now - timedelta(hours=1), now, now - timedelta(minutes=5), 50, 50, 'Complete', 'On time'),
-            ('W-002', now - timedelta(hours=2), now - timedelta(hours=1), now - timedelta(hours=1, minutes=5), 45, 45, 'Complete', 'Slightly delayed'),
-            ('W-003', now - timedelta(minutes=30), now + timedelta(minutes=30), None, 40, 38, 'In Progress', '2 tasks remaining'),
-            ('W-004', now - timedelta(minutes=15), now + timedelta(minutes=45), None, 35, 12, 'In Progress', 'Early stage'),
-        ]
+        # Instructions row
+        ws.cell(row=3, column=1, value='HOW TO USE:')
+        ws.cell(row=3, column=2, value='Enter start time (format: HH:MM:SS)')
+        ws.cell(row=3, column=3, value='Enter target completion (1 hour from start)')
+        ws.cell(row=3, column=4, value='Enter actual completion time')
+        ws.cell(row=3, column=5, value='AUTO-CALCULATED: =(D3-B3)*24*60')
+        ws.cell(row=3, column=6, value='Enter total tasks')
+        ws.cell(row=3, column=7, value='Enter completed tasks')
+        ws.cell(row=3, column=8, value='Status: Complete or In Progress')
+        ws.cell(row=3, column=9, value='Optional notes')
         
-        for row, (wave_id, start, target, actual, total_tasks, complete_tasks, status, notes) in enumerate(waves, start=3):
-            ws.cell(row=row, column=1, value=wave_id)
-            ws.cell(row=row, column=2, value=start).number_format = 'hh:mm:ss'
-            ws.cell(row=row, column=3, value=target).number_format = 'hh:mm:ss'
-            
-            if actual:
-                ws.cell(row=row, column=4, value=actual).number_format = 'hh:mm:ss'
-                # Duration formula: (Actual End - Start Time) * 24 * 60
-                ws.cell(row=row, column=5, value=f'=(D{row}-B{row})*24*60')
-            else:
-                ws.cell(row=row, column=4, value='')
-                ws.cell(row=row, column=5, value='')
-            
-            ws.cell(row=row, column=6, value=total_tasks)
-            ws.cell(row=row, column=7, value=complete_tasks)
-            ws.cell(row=row, column=8, value=status)
-            ws.cell(row=row, column=9, value=notes)
-            
-            # Format duration
-            if actual:
-                ws.cell(row=row, column=5).number_format = '0'
+        # Make instructions row stand out
+        instruction_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        for col in range(1, 10):
+            cell = ws.cell(row=3, column=col)
+            cell.fill = instruction_fill
+            cell.font = Font(italic=True, size=9)
         
-        self.set_column_widths(ws, [12, 15, 15, 15, 15, 12, 15, 15, 25])
+        # Add a sample formula in row 4 for Duration column to show how it works
+        ws.cell(row=4, column=1, value='W-001')
+        ws.cell(row=4, column=5, value='=(D4-B4)*24*60')
+        ws.cell(row=4, column=5).number_format = '0'
+        ws.cell(row=4, column=9, value='← Copy this formula down when you add data')
+        
+        self.set_column_widths(ws, [12, 15, 15, 15, 15, 12, 15, 15, 35])
         
         return ws
     
@@ -283,19 +271,24 @@ class FormulaBasedExcelGenerator:
             ws.cell(row=2, column=col, value=header)
         self.apply_header_style(ws, 2, 1, 10)
         
-        # Sample data
-        training_data = [
-            ('EMP-001', 'John Smith', 'Picking', 'Safety Procedures', '2024-01-15', '2024-01-15', 'Completed', '95%', 'Trainer A', 'Excellent'),
-            ('EMP-002', 'Jane Doe', 'Packing', 'Quality Standards', '2024-01-16', '2024-01-16', 'Completed', '92%', 'Trainer B', 'Good'),
-            ('EMP-003', 'Bob Johnson', 'Receiving', 'System Training', '2024-01-17', None, 'Pending', None, None, 'Scheduled'),
-            ('EMP-004', 'Alice Brown', 'Picking', 'Equipment Operation', '2024-01-18', '2024-01-18', 'Completed', '88%', 'Trainer A', 'Satisfactory'),
-            ('EMP-005', 'Charlie Davis', 'Quality', 'Audit Procedures', '2024-01-19', None, 'Pending', None, None, 'Not started'),
-            ('EMP-006', 'Diana Wilson', 'Packing', 'Safety Procedures', '2024-01-20', '2024-01-20', 'Completed', '97%', 'Trainer C', 'Outstanding'),
-        ]
+        # Instructions row
+        ws.cell(row=3, column=1, value='HOW TO USE:')
+        ws.cell(row=3, column=2, value='Enter employee name')
+        ws.cell(row=3, column=3, value='Department: Picking, Packing, Receiving, Quality, etc.')
+        ws.cell(row=3, column=4, value='Training module name')
+        ws.cell(row=3, column=5, value='Enter scheduled date (YYYY-MM-DD)')
+        ws.cell(row=3, column=6, value='Enter completion date (leave blank if pending)')
+        ws.cell(row=3, column=7, value='Status: Completed or Pending')
+        ws.cell(row=3, column=8, value='Score percentage (e.g., 95%)')
+        ws.cell(row=3, column=9, value='Name of certifier/trainer')
+        ws.cell(row=3, column=10, value='Optional notes')
         
-        for row, data in enumerate(training_data, start=3):
-            for col, value in enumerate(data, start=1):
-                ws.cell(row=row, column=col, value=value)
+        # Make instructions row stand out
+        instruction_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        for col in range(1, 11):
+            cell = ws.cell(row=3, column=col)
+            cell.fill = instruction_fill
+            cell.font = Font(italic=True, size=9)
         
         self.set_column_widths(ws, [12, 20, 15, 20, 15, 15, 15, 10, 15, 20])
         
@@ -317,37 +310,32 @@ class FormulaBasedExcelGenerator:
             ws.cell(row=2, column=col, value=header)
         self.apply_header_style(ws, 2, 1, 11)
         
-        # Sample data
-        now = datetime.now()
-        stock_data = [
-            ('REP-001', 'SKU-1001', 'Widget A', 5, 3, 500, now - timedelta(hours=2.5), None, 2.5, 'In Progress', 'High'),
-            ('REP-002', 'SKU-1002', 'Widget B', 10, 8, 750, now - timedelta(hours=1.8), now, 1.8, 'Complete', 'Medium'),
-            ('REP-003', 'SKU-1003', 'Widget C', 10, 100, 1000, now - timedelta(hours=3.2), None, 3.2, 'In Progress', 'Urgent'),
-            ('REP-004', 'SKU-1004', 'Widget D', 15, 12, 600, now - timedelta(hours=2.1), now, 2.1, 'Complete', 'Medium'),
-        ]
+        # Instructions row
+        ws.cell(row=3, column=1, value='HOW TO USE:')
+        ws.cell(row=3, column=2, value='Product SKU code')
+        ws.cell(row=3, column=3, value='Product name')
+        ws.cell(row=3, column=4, value='Reorder point threshold')
+        ws.cell(row=3, column=5, value='Current stock level')
+        ws.cell(row=3, column=6, value='Order quantity')
+        ws.cell(row=3, column=7, value='Request timestamp')
+        ws.cell(row=3, column=8, value='Received timestamp')
+        ws.cell(row=3, column=9, value='AUTO-CALCULATED: =(H3-G3)*24')
+        ws.cell(row=3, column=10, value='Status: In Progress or Complete')
+        ws.cell(row=3, column=11, value='Priority: Low, Medium, High, Urgent')
         
-        for row, (rep_id, sku, product, reorder, current, order_qty, request_time, received_time, duration, status, priority) in enumerate(stock_data, start=3):
-            ws.cell(row=row, column=1, value=rep_id)
-            ws.cell(row=row, column=2, value=sku)
-            ws.cell(row=row, column=3, value=product)
-            ws.cell(row=row, column=4, value=reorder)
-            ws.cell(row=row, column=5, value=current)
-            ws.cell(row=row, column=6, value=order_qty)
-            ws.cell(row=row, column=7, value=request_time).number_format = 'yyyy-mm-dd hh:mm:ss'
-            
-            if received_time:
-                ws.cell(row=row, column=8, value=received_time).number_format = 'yyyy-mm-dd hh:mm:ss'
-                # Duration formula: (Received - Request) * 24
-                ws.cell(row=row, column=9, value=f'=(H{row}-G{row})*24')
-                ws.cell(row=row, column=9).number_format = '0.0'
-            else:
-                ws.cell(row=row, column=8, value='')
-                ws.cell(row=row, column=9, value=duration)
-            
-            ws.cell(row=row, column=10, value=status)
-            ws.cell(row=row, column=11, value=priority)
+        # Make instructions row stand out
+        instruction_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        for col in range(1, 12):
+            cell = ws.cell(row=3, column=col)
+            cell.fill = instruction_fill
+            cell.font = Font(italic=True, size=9)
         
-        self.set_column_widths(ws, [12, 12, 20, 12, 12, 12, 20, 20, 15, 15, 12])
+        # Add sample formula in row 4
+        ws.cell(row=4, column=1, value='REP-001')
+        ws.cell(row=4, column=9, value='=(H4-G4)*24')
+        ws.cell(row=4, column=9).number_format = '0.0'
+        
+        self.set_column_widths(ws, [12, 12, 20, 12, 12, 12, 20, 20, 18, 15, 12])
         
         return ws
     
@@ -367,33 +355,34 @@ class FormulaBasedExcelGenerator:
             ws.cell(row=2, column=col, value=header)
         self.apply_header_style(ws, 2, 1, 11)
         
-        # Sample data
-        now = datetime.now()
-        audit_data = [
-            ('QA-001', now, 'QA Team A', 1000, 50, 48, 2, 'Minor labeling errors', 'Re-labeled'),
-            ('QA-002', now, 'QA Team B', 850, 43, 41, 2, 'Packaging defects', 'Repackaged'),
-            ('QA-003', now, 'QA Team A', 1200, 65, 63, 2, 'Quantity mismatch', 'Corrected'),
-            ('QA-004', now, 'QA Team C', 950, 48, 47, 1, 'Damaged item', 'Replaced'),
-        ]
+        # Instructions row
+        ws.cell(row=3, column=1, value='HOW TO USE:')
+        ws.cell(row=3, column=2, value='Enter audit date')
+        ws.cell(row=3, column=3, value='Auditor name or team')
+        ws.cell(row=3, column=4, value='Total items processed')
+        ws.cell(row=3, column=5, value='Items audited (aim for 5%+)')
+        ws.cell(row=3, column=6, value='AUTO-CALCULATED: =E3/D3')
+        ws.cell(row=3, column=7, value='Number of items passed')
+        ws.cell(row=3, column=8, value='Number of items failed')
+        ws.cell(row=3, column=9, value='AUTO-CALCULATED: =G3/(G3+H3)')
+        ws.cell(row=3, column=10, value='Description of issues')
+        ws.cell(row=3, column=11, value='Corrective actions taken')
         
-        for row, (audit_id, date, auditor, processed, audited, pass_cnt, fail_cnt, issues, actions) in enumerate(audit_data, start=3):
-            ws.cell(row=row, column=1, value=audit_id)
-            ws.cell(row=row, column=2, value=date).number_format = 'yyyy-mm-dd hh:mm:ss'
-            ws.cell(row=row, column=3, value=auditor)
-            ws.cell(row=row, column=4, value=processed)
-            ws.cell(row=row, column=5, value=audited)
-            # Coverage % = Items Audited / Items Processed
-            ws.cell(row=row, column=6, value=f'=E{row}/D{row}')
-            ws.cell(row=row, column=6).number_format = '0.0%'
-            ws.cell(row=row, column=7, value=pass_cnt)
-            ws.cell(row=row, column=8, value=fail_cnt)
-            # Pass Rate = Pass / (Pass + Fail)
-            ws.cell(row=row, column=9, value=f'=G{row}/(G{row}+H{row})')
-            ws.cell(row=row, column=9).number_format = '0.0%'
-            ws.cell(row=row, column=10, value=issues)
-            ws.cell(row=row, column=11, value=actions)
+        # Make instructions row stand out
+        instruction_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        for col in range(1, 12):
+            cell = ws.cell(row=3, column=col)
+            cell.fill = instruction_fill
+            cell.font = Font(italic=True, size=9)
         
-        self.set_column_widths(ws, [12, 20, 15, 15, 15, 12, 10, 10, 12, 25, 20])
+        # Add sample formulas in row 4
+        ws.cell(row=4, column=1, value='QA-001')
+        ws.cell(row=4, column=6, value='=E4/D4')
+        ws.cell(row=4, column=6).number_format = '0.0%'
+        ws.cell(row=4, column=9, value='=G4/(G4+H4)')
+        ws.cell(row=4, column=9).number_format = '0.0%'
+        
+        self.set_column_widths(ws, [12, 20, 15, 15, 15, 15, 10, 10, 15, 30, 25])
         
         return ws
     
@@ -413,43 +402,34 @@ class FormulaBasedExcelGenerator:
             ws.cell(row=2, column=col, value=header)
         self.apply_header_style(ws, 2, 1, 11)
         
-        # Sample data
-        now = datetime.now()
-        picking_data = [
-            ('PT-001', 'EMP-001', 'John Smith', now - timedelta(minutes=28), now, 45, 30, 28, 0, 'Complete'),
-            ('PT-002', 'EMP-002', 'Jane Doe', now - timedelta(minutes=38), now, 50, 35, 38, 1, 'Complete'),
-            ('PT-003', 'EMP-003', 'Bob Johnson', now - timedelta(minutes=20), None, 40, 28, None, None, 'In Progress'),
-            ('PT-004', 'EMP-004', 'Alice Brown', now - timedelta(minutes=36), now, 55, 38, 36, 0, 'Complete'),
-        ]
+        # Instructions row
+        ws.cell(row=3, column=1, value='HOW TO USE:')
+        ws.cell(row=3, column=2, value='Employee ID')
+        ws.cell(row=3, column=3, value='Employee name')
+        ws.cell(row=3, column=4, value='Task start timestamp')
+        ws.cell(row=3, column=5, value='Task end timestamp')
+        ws.cell(row=3, column=6, value='Number of items picked')
+        ws.cell(row=3, column=7, value='Target time in minutes')
+        ws.cell(row=3, column=8, value='AUTO-CALCULATED: =(E3-D3)*24*60')
+        ws.cell(row=3, column=9, value='AUTO-CALCULATED: =G3/H3')
+        ws.cell(row=3, column=10, value='Number of errors')
+        ws.cell(row=3, column=11, value='Status: Complete or In Progress')
         
-        for row, (task_id, emp_id, emp_name, start_time, end_time, items, target_time, actual_time, errors, status) in enumerate(picking_data, start=3):
-            ws.cell(row=row, column=1, value=task_id)
-            ws.cell(row=row, column=2, value=emp_id)
-            ws.cell(row=row, column=3, value=emp_name)
-            ws.cell(row=row, column=4, value=start_time).number_format = 'yyyy-mm-dd hh:mm:ss'
-            
-            if end_time:
-                ws.cell(row=row, column=5, value=end_time).number_format = 'yyyy-mm-dd hh:mm:ss'
-                ws.cell(row=row, column=6, value=items)
-                ws.cell(row=row, column=7, value=target_time)
-                # Actual Time = (End - Start) * 24 * 60
-                ws.cell(row=row, column=8, value=f'=(E{row}-D{row})*24*60')
-                ws.cell(row=row, column=8).number_format = '0'
-                # Efficiency % = Target Time / Actual Time
-                ws.cell(row=row, column=9, value=f'=G{row}/H{row}')
-                ws.cell(row=row, column=9).number_format = '0%'
-                ws.cell(row=row, column=10, value=errors)
-            else:
-                ws.cell(row=row, column=5, value='')
-                ws.cell(row=row, column=6, value=items)
-                ws.cell(row=row, column=7, value=target_time)
-                ws.cell(row=row, column=8, value='')
-                ws.cell(row=row, column=9, value='')
-                ws.cell(row=row, column=10, value='')
-            
-            ws.cell(row=row, column=11, value=status)
+        # Make instructions row stand out
+        instruction_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        for col in range(1, 12):
+            cell = ws.cell(row=3, column=col)
+            cell.fill = instruction_fill
+            cell.font = Font(italic=True, size=9)
         
-        self.set_column_widths(ws, [12, 12, 20, 20, 20, 12, 18, 18, 12, 10, 15])
+        # Add sample formulas in row 4
+        ws.cell(row=4, column=1, value='PT-001')
+        ws.cell(row=4, column=8, value='=(E4-D4)*24*60')
+        ws.cell(row=4, column=8).number_format = '0'
+        ws.cell(row=4, column=9, value='=G4/H4')
+        ws.cell(row=4, column=9).number_format = '0%'
+        
+        self.set_column_widths(ws, [12, 12, 20, 20, 20, 12, 18, 20, 15, 10, 15])
         
         return ws
     
@@ -469,30 +449,30 @@ class FormulaBasedExcelGenerator:
             ws.cell(row=2, column=col, value=header)
         self.apply_header_style(ws, 2, 1, 10)
         
-        # Sample data with formulas for totals
-        order_data = [
-            ('2024-01-20', 1247, 45, 178, 892, 120, 12, '$156.78', '14:00'),
-            ('2024-01-19', 1189, 38, 165, 856, 115, 15, '$148.92', '15:00'),
-            ('2024-01-18', 1312, 52, 189, 934, 125, 12, '$162.45', '13:00'),
-            ('2024-01-17', 1098, 41, 142, 789, 110, 16, '$151.33', '14:00'),
-            ('2024-01-16', 1256, 47, 176, 901, 118, 14, '$159.67', '15:00'),
-        ]
+        # Instructions row
+        ws.cell(row=3, column=1, value='HOW TO USE:')
+        ws.cell(row=3, column=2, value='Enter total orders count')
+        ws.cell(row=3, column=3, value='Pending orders')
+        ws.cell(row=3, column=4, value='Processing orders')
+        ws.cell(row=3, column=5, value='Shipped orders')
+        ws.cell(row=3, column=6, value='Delivered orders')
+        ws.cell(row=3, column=7, value='Cancelled orders')
+        ws.cell(row=3, column=8, value='AUTO-CALCULATED: =G3/B3')
+        ws.cell(row=3, column=9, value='Average order value')
+        ws.cell(row=3, column=10, value='Peak hour (e.g., 14:00)')
         
-        for row, (date, total, pending, processing, shipped, delivered, cancelled, avg_val, peak) in enumerate(order_data, start=3):
-            ws.cell(row=row, column=1, value=date)
-            ws.cell(row=row, column=2, value=total)
-            ws.cell(row=row, column=3, value=pending)
-            ws.cell(row=row, column=4, value=processing)
-            ws.cell(row=row, column=5, value=shipped)
-            ws.cell(row=row, column=6, value=delivered)
-            ws.cell(row=row, column=7, value=cancelled)
-            # Return Rate = Cancelled / Total
-            ws.cell(row=row, column=8, value=f'=G{row}/B{row}')
-            ws.cell(row=row, column=8).number_format = '0.0%'
-            ws.cell(row=row, column=9, value=avg_val)
-            ws.cell(row=row, column=10, value=peak)
+        # Make instructions row stand out
+        instruction_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        for col in range(1, 11):
+            cell = ws.cell(row=3, column=col)
+            cell.fill = instruction_fill
+            cell.font = Font(italic=True, size=9)
         
-        self.set_column_widths(ws, [12, 12, 10, 12, 10, 10, 10, 15, 15, 12])
+        # Add sample formula in row 4
+        ws.cell(row=4, column=8, value='=G4/B4')
+        ws.cell(row=4, column=8).number_format = '0.0%'
+        
+        self.set_column_widths(ws, [12, 12, 10, 12, 10, 10, 10, 18, 15, 12])
         
         return ws
     
@@ -512,23 +492,27 @@ class FormulaBasedExcelGenerator:
             ws.cell(row=2, column=col, value=header)
         self.apply_header_style(ws, 2, 1, 11)
         
-        # Sample data
-        now = datetime.now()
-        perf_data = [
-            ('EMP-001', 'John Smith', 'Picking', now, 45, 28, '98%', 'Complete', 'Excellent', 'None', 'Top performer'),
-            ('EMP-002', 'Jane Doe', 'Packing', now, 42, 32, '96%', 'Complete', 'Good', 'Speed improvement', 'Consistent'),
-            ('EMP-003', 'Bob Johnson', 'Receiving', now, 38, 35, '94%', 'Pending', 'Satisfactory', 'Training needed', 'Needs support'),
-            ('EMP-004', 'Alice Brown', 'Picking', now, 48, 27, '99%', 'Complete', 'Excellent', 'None', 'Outstanding'),
-            ('EMP-005', 'Charlie Davis', 'Quality', now, 35, 40, '92%', 'Pending', 'Needs Improvement', 'Accuracy, Speed', 'Requires coaching'),
-        ]
+        # Instructions row
+        ws.cell(row=3, column=1, value='HOW TO USE:')
+        ws.cell(row=3, column=2, value='Employee name')
+        ws.cell(row=3, column=3, value='Department name')
+        ws.cell(row=3, column=4, value='Performance review date')
+        ws.cell(row=3, column=5, value='Number of tasks completed')
+        ws.cell(row=3, column=6, value='Average time per task (minutes)')
+        ws.cell(row=3, column=7, value='Accuracy percentage')
+        ws.cell(row=3, column=8, value='Training status: Complete or Pending')
+        ws.cell(row=3, column=9, value='Rating: Excellent, Good, Satisfactory, Needs Improvement')
+        ws.cell(row=3, column=10, value='Areas for improvement')
+        ws.cell(row=3, column=11, value='Additional notes')
         
-        for row, data in enumerate(perf_data, start=3):
-            for col, value in enumerate(data, start=1):
-                cell = ws.cell(row=row, column=col, value=value)
-                if col == 4:  # Date column
-                    cell.number_format = 'yyyy-mm-dd hh:mm:ss'
+        # Make instructions row stand out
+        instruction_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        for col in range(1, 12):
+            cell = ws.cell(row=3, column=col)
+            cell.fill = instruction_fill
+            cell.font = Font(italic=True, size=9)
         
-        self.set_column_widths(ws, [12, 20, 12, 20, 15, 18, 12, 15, 18, 20, 20])
+        self.set_column_widths(ws, [12, 20, 12, 20, 15, 18, 12, 15, 22, 25, 25])
         
         return ws
     
@@ -548,33 +532,34 @@ class FormulaBasedExcelGenerator:
             ws.cell(row=2, column=col, value=header)
         self.apply_header_style(ws, 2, 1, 12)
         
-        # Sample data
-        now = datetime.now()
-        mismatch_data = [
-            ('INV-001', now, 'SKU-1001', 'Widget A', 500, 498, 'Picking error', 'Inventory adjusted', 'Manager A', 'Resolved'),
-            ('INV-002', now, 'SKU-1002', 'Widget B', 750, 755, 'Receiving error', 'System updated', 'Manager B', 'Resolved'),
-            ('INV-003', now, 'SKU-1003', 'Widget C', 1000, 990, 'Unrecorded damage', 'Under investigation', 'Manager A', 'Open'),
-            ('INV-004', now, 'SKU-1004', 'Widget D', 600, 602, 'Data entry error', 'Corrected', 'Manager C', 'Resolved'),
-        ]
+        # Instructions row
+        ws.cell(row=3, column=1, value='HOW TO USE:')
+        ws.cell(row=3, column=2, value='Date discovered')
+        ws.cell(row=3, column=3, value='Product SKU')
+        ws.cell(row=3, column=4, value='Product name')
+        ws.cell(row=3, column=5, value='System count')
+        ws.cell(row=3, column=6, value='Physical count')
+        ws.cell(row=3, column=7, value='AUTO-CALCULATED: =F3-E3')
+        ws.cell(row=3, column=8, value='AUTO-CALCULATED: =(F3-E3)/E3')
+        ws.cell(row=3, column=9, value='Root cause of discrepancy')
+        ws.cell(row=3, column=10, value='Resolution steps taken')
+        ws.cell(row=3, column=11, value='Person who resolved')
+        ws.cell(row=3, column=12, value='Status: Open or Resolved')
         
-        for row, (mis_id, date, sku, product, system, physical, cause, resolution, resolved_by, status) in enumerate(mismatch_data, start=3):
-            ws.cell(row=row, column=1, value=mis_id)
-            ws.cell(row=row, column=2, value=date).number_format = 'yyyy-mm-dd hh:mm:ss'
-            ws.cell(row=row, column=3, value=sku)
-            ws.cell(row=row, column=4, value=product)
-            ws.cell(row=row, column=5, value=system)
-            ws.cell(row=row, column=6, value=physical)
-            # Variance = Physical - System
-            ws.cell(row=row, column=7, value=f'=F{row}-E{row}')
-            # Variance % = (Physical - System) / System
-            ws.cell(row=row, column=8, value=f'=(F{row}-E{row})/E{row}')
-            ws.cell(row=row, column=8).number_format = '0.0%'
-            ws.cell(row=row, column=9, value=cause)
-            ws.cell(row=row, column=10, value=resolution)
-            ws.cell(row=row, column=11, value=resolved_by)
-            ws.cell(row=row, column=12, value=status)
+        # Make instructions row stand out
+        instruction_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        for col in range(1, 13):
+            cell = ws.cell(row=3, column=col)
+            cell.fill = instruction_fill
+            cell.font = Font(italic=True, size=9)
         
-        self.set_column_widths(ws, [12, 20, 12, 20, 12, 15, 10, 12, 20, 20, 15, 12])
+        # Add sample formulas in row 4
+        ws.cell(row=4, column=1, value='INV-001')
+        ws.cell(row=4, column=7, value='=F4-E4')
+        ws.cell(row=4, column=8, value='=(F4-E4)/E4')
+        ws.cell(row=4, column=8).number_format = '0.0%'
+        
+        self.set_column_widths(ws, [12, 20, 12, 20, 12, 15, 15, 18, 25, 25, 15, 12])
         
         return ws
     
@@ -594,26 +579,26 @@ class FormulaBasedExcelGenerator:
             ws.cell(row=2, column=col, value=header)
         self.apply_header_style(ws, 2, 1, 10)
         
-        # Sample data
-        now = datetime.now()
-        error_data = [
-            ('ERR-001', now, 'Warehouse Management', 'Database Connection', 'High', 
-             'Connection timeout to inventory DB', 'Delayed updates', 'Restarted DB service', 'IT Team', 'Resolved'),
-            ('ERR-002', now, 'Picking System', 'Scanner Malfunction', 'Medium', 
-             'Barcode scanner not reading', 'Manual entry required', 'Scanner replaced', 'Tech Support', 'Resolved'),
-            ('ERR-003', now, 'Order Management', 'API Timeout', 'Low', 
-             'Third-party API slow response', 'Minor delays', 'Monitoring', 'IT Team', 'Open'),
-            ('ERR-004', now, 'Shipping Integration', 'Label Printer Error', 'Medium', 
-             'Printer offline', 'Manual processing', 'Printer reconnected', 'Warehouse Staff', 'Resolved'),
-        ]
+        # Instructions row
+        ws.cell(row=3, column=1, value='HOW TO USE:')
+        ws.cell(row=3, column=2, value='Error timestamp')
+        ws.cell(row=3, column=3, value='System or module name')
+        ws.cell(row=3, column=4, value='Type of error')
+        ws.cell(row=3, column=5, value='Severity: Low, Medium, High, Critical')
+        ws.cell(row=3, column=6, value='Detailed error description')
+        ws.cell(row=3, column=7, value='Business impact')
+        ws.cell(row=3, column=8, value='Resolution steps')
+        ws.cell(row=3, column=9, value='Person/team who resolved')
+        ws.cell(row=3, column=10, value='Status: Open or Resolved')
         
-        for row, data in enumerate(error_data, start=3):
-            for col, value in enumerate(data, start=1):
-                cell = ws.cell(row=row, column=col, value=value)
-                if col == 2:  # Date column
-                    cell.number_format = 'yyyy-mm-dd hh:mm:ss'
+        # Make instructions row stand out
+        instruction_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        for col in range(1, 11):
+            cell = ws.cell(row=3, column=col)
+            cell.fill = instruction_fill
+            cell.font = Font(italic=True, size=9)
         
-        self.set_column_widths(ws, [12, 20, 20, 18, 12, 30, 20, 25, 15, 12])
+        self.set_column_widths(ws, [12, 20, 20, 18, 12, 35, 20, 30, 15, 12])
         
         return ws
     

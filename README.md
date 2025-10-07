@@ -2,28 +2,43 @@
 
 A comprehensive Excel-based solution for tracking and monitoring e-commerce warehouse operations. Available in two versions:
 
+---
+
+## 🎯 READY-TO-USE FILE AVAILABLE
+
+**📥 The file `Ecom_Operations_Tracking_System_Formula_Based.xlsx` in this repository is ready to use immediately!**
+
+- ✅ No code to run
+- ✅ No installation needed
+- ✅ No sample data to clean up
+- ✅ Instructions embedded in every sheet
+- ✅ Just download and open!
+
+**👉 See [SIMPLE_USER_GUIDE.md](SIMPLE_USER_GUIDE.md) for complete instructions**
+
+---
+
 ## 🚀 Quick Start - Choose Your Version
 
-### ⭐ Formula-Based Version (Recommended - No VBA)
+### ⭐ Formula-Based Version (Recommended - Ready to Use!)
 
-**Pure Excel formulas, no macros required!**
+**📥 DOWNLOAD AND USE IMMEDIATELY - NO INSTALLATION REQUIRED!**
 
-```bash
-# Install dependencies
-pip3 install openpyxl
+The file `Ecom_Operations_Tracking_System_Formula_Based.xlsx` is **ready to use right now**:
 
-# Create formula-based Excel file
-python3 create_formula_based_excel.py
-```
+1. **Download** `Ecom_Operations_Tracking_System_Formula_Based.xlsx` from this repository
+2. **Open** in Excel, Excel Online, LibreOffice, or Google Sheets
+3. **Start using** - All formulas are pre-loaded, instructions in every sheet!
 
-📖 **Complete guide:** [FORMULA_BASED_QUICK_START.md](FORMULA_BASED_QUICK_START.md)
+📖 **User Guide:** [SIMPLE_USER_GUIDE.md](SIMPLE_USER_GUIDE.md)
 
 **Features:**
-- ✅ No VBA macros - works immediately
-- ✅ No security warnings
-- ✅ Universal compatibility (Excel, Excel Online, LibreOffice)
-- ✅ Automatic KPI calculations with live formulas
-- ✅ Easy to maintain and customize
+- ✅ **Pre-generated file** - No code to run
+- ✅ **No installation needed** - Just download and open
+- ✅ **No VBA macros** - Works immediately, no security warnings
+- ✅ **Universal compatibility** - Excel, Excel Online, LibreOffice, Google Sheets
+- ✅ **All formulas embedded** - Dashboard updates automatically
+- ✅ **Instructions included** - Each sheet has "HOW TO USE" row
 
 ---
 
@@ -64,8 +79,10 @@ python3 deploy_xlsm.py
 ## 📖 Documentation
 
 ### Formula-Based (No VBA):
-- ⭐ **[FORMULA_BASED_QUICK_START.md](FORMULA_BASED_QUICK_START.md)** - Get started in 5 minutes!
+- 🎯 **[SIMPLE_USER_GUIDE.md](SIMPLE_USER_GUIDE.md)** - Non-technical guide for end users
+- ⭐ **[FORMULA_BASED_QUICK_START.md](FORMULA_BASED_QUICK_START.md)** - Get started in 30 seconds!
 - 📘 [README_FORMULA_BASED.md](README_FORMULA_BASED.md) - Complete formula reference
+- ✅ [READY_TO_USE_SUMMARY.md](READY_TO_USE_SUMMARY.md) - What changed and why
 
 ### VBA-Based:
 - 🚀 **[QUICK_DEPLOY.md](QUICK_DEPLOY.md)** - Create pre-coded .xlsm
