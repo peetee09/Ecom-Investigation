@@ -89,25 +89,36 @@ Strategic insights, recommendations, and action items.
 
 ## 🚀 Getting Started
 
-### Generate the Excel File
+### Download and Open
+
+**The file is ready to use - no generation needed!**
+
+1. **Download** `Ecom_Operations_Tracking_System_Formula_Based.xlsx` from the repository
+2. **Open** in Microsoft Excel, Excel Online, LibreOffice Calc, or Google Sheets
+3. **Start using** immediately - all formulas are pre-loaded!
+
+### Using the File
+
+1. **No macros to enable** - Start using immediately!
+2. **View Dashboard** - See live KPI calculations
+3. **Read instructions** - Each sheet has a "HOW TO USE" row (row 3) with light blue background
+4. **Enter data** in tracking sheets - Dashboard updates automatically
+5. **Copy formulas** - Use sample formulas in row 4 as templates
+6. **All formulas work instantly** - No VBA, no code, no complexity
+
+### For Developers: Regenerating the File
+
+If you want to modify and regenerate the Excel file:
 
 ```bash
-# Install Python dependencies (if not already installed)
+# Install Python dependencies
 pip3 install openpyxl
 
 # Generate the formula-based Excel file
 python3 create_formula_based_excel.py
 ```
 
-This creates: `Ecom_Operations_Tracking_System_Formula_Based.xlsx`
-
-### Open and Use
-
-1. **Open the file** in Microsoft Excel, Excel Online, or compatible spreadsheet software
-2. **No macros to enable** - Start using immediately!
-3. **View Dashboard** - See live KPI calculations
-4. **Enter data** in tracking sheets - Dashboard updates automatically
-5. **All formulas work instantly** - No VBA, no complexity
+This creates a fresh: `Ecom_Operations_Tracking_System_Formula_Based.xlsx`
 
 ## 📈 How It Works
 

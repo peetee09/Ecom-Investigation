@@ -4,26 +4,25 @@ A comprehensive Excel-based solution for tracking and monitoring e-commerce ware
 
 ## 🚀 Quick Start - Choose Your Version
 
-### ⭐ Formula-Based Version (Recommended - No VBA)
+### ⭐ Formula-Based Version (Recommended - Ready to Use!)
 
-**Pure Excel formulas, no macros required!**
+**📥 DOWNLOAD AND USE IMMEDIATELY - NO INSTALLATION REQUIRED!**
 
-```bash
-# Install dependencies
-pip3 install openpyxl
+The file `Ecom_Operations_Tracking_System_Formula_Based.xlsx` is **ready to use right now**:
 
-# Create formula-based Excel file
-python3 create_formula_based_excel.py
-```
+1. **Download** the file from the repository
+2. **Open** in Excel, Excel Online, LibreOffice, or Google Sheets
+3. **Start using** - All formulas are pre-loaded!
 
-📖 **Complete guide:** [FORMULA_BASED_QUICK_START.md](FORMULA_BASED_QUICK_START.md)
+📖 **User Guide:** [SIMPLE_USER_GUIDE.md](SIMPLE_USER_GUIDE.md)
 
 **Features:**
-- ✅ No VBA macros - works immediately
-- ✅ No security warnings
-- ✅ Universal compatibility (Excel, Excel Online, LibreOffice)
-- ✅ Automatic KPI calculations with live formulas
-- ✅ Easy to maintain and customize
+- ✅ **Pre-generated file** - No code to run
+- ✅ **No installation needed** - Just download and open
+- ✅ **No VBA macros** - Works immediately, no security warnings
+- ✅ **Universal compatibility** - Excel, Excel Online, LibreOffice, Google Sheets
+- ✅ **All formulas embedded** - Dashboard updates automatically
+- ✅ **Instructions included** - Each sheet has "HOW TO USE" row
 
 ---
 
