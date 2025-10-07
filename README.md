@@ -2,6 +2,22 @@
 
 A comprehensive Excel-based solution for tracking and monitoring e-commerce warehouse operations. Available in two versions:
 
+---
+
+## 🎯 READY-TO-USE FILE AVAILABLE
+
+**📥 The file `Ecom_Operations_Tracking_System_Formula_Based.xlsx` in this repository is ready to use immediately!**
+
+- ✅ No code to run
+- ✅ No installation needed
+- ✅ No sample data to clean up
+- ✅ Instructions embedded in every sheet
+- ✅ Just download and open!
+
+**👉 See [SIMPLE_USER_GUIDE.md](SIMPLE_USER_GUIDE.md) for complete instructions**
+
+---
+
 ## 🚀 Quick Start - Choose Your Version
 
 ### ⭐ Formula-Based Version (Recommended - Ready to Use!)
@@ -10,9 +26,9 @@ A comprehensive Excel-based solution for tracking and monitoring e-commerce ware
 
 The file `Ecom_Operations_Tracking_System_Formula_Based.xlsx` is **ready to use right now**:
 
-1. **Download** the file from the repository
+1. **Download** `Ecom_Operations_Tracking_System_Formula_Based.xlsx` from this repository
 2. **Open** in Excel, Excel Online, LibreOffice, or Google Sheets
-3. **Start using** - All formulas are pre-loaded!
+3. **Start using** - All formulas are pre-loaded, instructions in every sheet!
 
 📖 **User Guide:** [SIMPLE_USER_GUIDE.md](SIMPLE_USER_GUIDE.md)
 
@@ -63,8 +79,10 @@ python3 deploy_xlsm.py
 ## 📖 Documentation
 
 ### Formula-Based (No VBA):
-- ⭐ **[FORMULA_BASED_QUICK_START.md](FORMULA_BASED_QUICK_START.md)** - Get started in 5 minutes!
+- 🎯 **[SIMPLE_USER_GUIDE.md](SIMPLE_USER_GUIDE.md)** - Non-technical guide for end users
+- ⭐ **[FORMULA_BASED_QUICK_START.md](FORMULA_BASED_QUICK_START.md)** - Get started in 30 seconds!
 - 📘 [README_FORMULA_BASED.md](README_FORMULA_BASED.md) - Complete formula reference
+- ✅ [READY_TO_USE_SUMMARY.md](READY_TO_USE_SUMMARY.md) - What changed and why
 
 ### VBA-Based:
 - 🚀 **[QUICK_DEPLOY.md](QUICK_DEPLOY.md)** - Create pre-coded .xlsm
