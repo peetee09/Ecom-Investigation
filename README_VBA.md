@@ -1,5 +1,7 @@
 # E-Commerce Operations Tracking System - VBA Version
 
+> **💡 Looking for a simpler option?** Check out the new [Formula-Based Version](README_FORMULA_BASED.md) that requires **no VBA macros** and works with Excel Online, LibreOffice, and more!
+
 ## 🎯 Overview
 
 The **VBA Version** of the E-Commerce Operations Tracking System is a fully-featured Excel solution that **does not require a web browser**. All functionality runs natively within Microsoft Excel using VBA (Visual Basic for Applications) macros.
